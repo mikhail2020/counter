@@ -8,6 +8,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Todo, TodoType } from "../Counter/Counter";
 import MenuItem from "@mui/material/MenuItem";
 import style from './TodoList.module.css';
+import { memo, useCallback, useMemo } from "react";
 
 
 interface TodoListProps {
@@ -16,18 +17,10 @@ interface TodoListProps {
     setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-export const TodoList = (props: TodoListProps) => {
+export const TodoList = memo((props: TodoListProps) => {
     const { typeTodo, todos, setTodos } = props;
 
-
-    const changeChecked = (id: number) => {
-        setTodos(prevState => prevState.map(todo => {
-            if (id === todo.id) {
-                return { ...todo, isActive: !todo.isActive }
-            }
-            return todo;
-        }));
-    }
+    const { tasksByType, changeChecked } = useTodoList(typeTodo, todos, setTodos);
 
     return (
         <Accordion>
@@ -37,7 +30,7 @@ export const TodoList = (props: TodoListProps) => {
             <AccordionDetails className={style.listWrapper}>
                 {
                     todos.length ?
-                        getTasksByType(typeTodo, todos).map(todo =>
+                        tasksByType.map(todo =>
                             <ItemTodo
                                 key={todo.id}
                                 id={todo.id}
@@ -50,4 +43,23 @@ export const TodoList = (props: TodoListProps) => {
             </AccordionDetails>
         </Accordion>
     )
+});
+
+const useTodoList = (
+    typeTodo: TodoType,
+    todos: Todo[],
+    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+) => {
+
+    const tasksByType = useMemo(() => getTasksByType(typeTodo, todos), [typeTodo, todos]);
+
+    const changeChecked = useCallback((id: number) => {
+        setTodos(prevState => prevState.map(todo => {
+            if (id === todo.id) {
+                return { ...todo, isActive: !todo.isActive }
+            }
+            return todo;
+        }));
+    }, []);
+    return { tasksByType, changeChecked };
 }

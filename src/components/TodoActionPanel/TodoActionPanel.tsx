@@ -5,53 +5,69 @@ import { getRemainingTaskCount } from "../../utils/utils";
 import Button from "@mui/material/Button";
 import { Todo, TodoType } from "../Counter/Counter";
 import style from './TodoActionPanel.module.css';
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { memo, useMemo } from "react";
 
 interface TodoActionPanel {
     typeTodo: TodoType;
-    setTypeTodo: React.Dispatch<React.SetStateAction<TodoType>>
+    setTypeTodo: React.Dispatch<React.SetStateAction<TodoType>>;
     todos: Todo[];
     setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 
-export const TodoActionPanel = (props: TodoActionPanel) => {
+export const TodoActionPanel = memo((props: TodoActionPanel) => {
     const { todos, setTodos, typeTodo, setTypeTodo } = props;
 
-    const clearChecked = () => {
-        setTodos(prevState => prevState.filter(todo => todo.isActive))
-    }
+    const { handleChangeType, clearChecked, remainingTask } = useTodoActionPanel(todos, setTypeTodo, setTodos);
+
 
     return (
-        <Box sx={{ p: 1 }}>
-            <Stack direction="row" spacing={1} className={style.directionRow}>
-                <Typography >{getRemainingTaskCount(todos)}</Typography>
-                <Box sx={{ margin: '3px' }} className={[style.directionRow, style.margin0].join(" ")} >
-                    <Button
-                        variant={typeTodo === "all" ? "outlined" : "text"}
-                        size="small"
-                        onClick={() => setTypeTodo('all')}
-                    >
-                        Все
-                    </Button>
-                    <Button
-                        variant={typeTodo === "active" ? "outlined" : "text"}
-                        size="small"
-                        onClick={() => setTypeTodo('active')}
-                    >
-                        Активные
-                    </Button>
-                    <Button
-                        variant={typeTodo === "complete" ? "outlined" : "text"}
-                        size="small"
-                        onClick={() => setTypeTodo('complete')}
-                    >
-                        Выполненные
-                    </Button>
-                </Box>
-                <Button  variant="text" size="small" onClick={clearChecked}>
+        <Box className={style.wrapper}>
+            <Stack direction="row" spacing={1} >
+                <Typography className={style.remainingTask}>
+                    {remainingTask}
+                </Typography>
+
+                <Tabs
+                    value={typeTodo}
+                    onChange={handleChangeType}
+                    className={style.tabsRoot}
+                >
+                    <Tab className={typeTodo === "all" ? style.activeTab : style.tab} label="Все" value={'all'} />
+                    <Tab className={typeTodo === "active" ? style.activeTab : style.tab} label="Активные" value={'active'} />
+                    <Tab className={typeTodo === "complete" ? style.activeTab : style.tab} label="Выполненные" value={'complete'} />
+                </Tabs>
+
+                <Button variant="text" size="small" onClick={clearChecked}>
                     Удалить выполненные
                 </Button>
             </Stack>
         </Box >
     )
+})
+
+
+const useTodoActionPanel = (
+    todos: Todo[],
+    setTypeTodo: React.Dispatch<React.SetStateAction<TodoType>>,
+    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+) => {
+
+    const clearChecked = () => {
+        setTodos(prevState => prevState.filter(todo => todo.isActive));
+    }
+    const handleChangeType = (_: React.SyntheticEvent, value: TodoType) => {
+        setTypeTodo(value)
+    }
+
+    const remainingTask = useMemo(() => getRemainingTaskCount(todos), [todos]);
+
+    return {
+        clearChecked,
+        handleChangeType,
+        remainingTask
+    }
 }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { TodoInput } from '../TodoInput/TodoInput';
 import { TodoList } from '../TodoList/TodoList';
 import { TodoActionPanel } from '../TodoActionPanel/TodoActionPanel';
-
+import style from './Counter.module.css';
 
 export interface Todo {
     id: number;
@@ -22,7 +22,7 @@ export const Counter = () => {
 
 
     return (<>
-        <Typography variant="h1" align='center' sx={{ color: 'var(--main-color)' }} >
+        <Typography variant="h1" className={style.header} >
             задачи
         </Typography>
         

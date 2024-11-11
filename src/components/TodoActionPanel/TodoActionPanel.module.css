@@ -1,4 +1,23 @@
-.directionRow {
-    display: flex;
-    justify-content: space-between;
+.wrapper {
+    padding: 8px 0px 0px 16px;
+
+}
+
+.remainingTask {
+    width: 80px;
+}
+
+.tabsRoot {
+    min-height: 30px;
+    height: 39px;
+}
+
+.tab {
+    padding: 0;
+}
+
+.activeTab {
+    border: 2px solid var(--main-color);
+    padding: 0;
+    color: rgba(0, 0, 0, 0.87) !important;
 }

@@ -1,6 +1,6 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuItem from '@mui/material/MenuItem';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Todo } from '../Counter/Counter';
 import Radio from '@mui/material/Radio';
 import { Typography } from '@mui/material';
@@ -10,7 +10,7 @@ interface ItemTodoProps extends Todo {
     changeChecked: (id: number) => void;
 }
 
-export const ItemTodo: FC<ItemTodoProps> = (props) => {
+export const ItemTodo = memo((props: ItemTodoProps) => {
 
     return <>
         <MenuItem disableTouchRipple className={style.wrapper}>
@@ -28,4 +28,4 @@ export const ItemTodo: FC<ItemTodoProps> = (props) => {
 
         </MenuItem>
     </>
-}
+});

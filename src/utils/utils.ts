@@ -14,12 +14,12 @@ export const getRemainingTaskCount = (todos: Todo[]): string => {
     } else if (count === 1 || (count % 10 === 1)) {
         return `${count} задача осталась`;
     } else {
-        return `${count} задачи осталось`
+        return `${count} задачи осталось`;
     }
 }
 
 /**Функция возвращает список задач, в зависимости от выбранного типа задач */
-export const getTasksByType = (type:  TodoType, todos: Todo[] ): Todo[] => { 
+export const getTasksByType = (type: TodoType, todos: Todo[]): Todo[] => {
     switch (type) {
         case 'active':
             return todos.filter(todo => todo.isActive);
