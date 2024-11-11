@@ -1,0 +1,4 @@
+.directionRow {
+    display: flex;
+    justify-content: space-between;
+}

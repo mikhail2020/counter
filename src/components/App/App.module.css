@@ -1,0 +1,10 @@
+.container {
+    display: grid;
+    justify-items: center;
+    height: 100vh; 
+    padding: 0 20px;
+}
+
+.content {
+    width: 600px;
+}
