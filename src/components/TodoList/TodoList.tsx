@@ -3,7 +3,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import { getTasksByType } from "../../utils/utils";
-import { ItemTodo } from "../TodoItem/TodoItem";
+import { TodoItem } from "../TodoItem/TodoItem";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Todo, TodoType } from "../Counter/Counter";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,7 +23,7 @@ export const TodoList = memo((props: TodoListProps) => {
     const { tasksByType, changeChecked } = useTodoList(typeTodo, todos, setTodos);
 
     return (
-        <Accordion>
+        <Accordion data-testid="DDL">
             <AccordionSummary className={style.header} expandIcon={<ArrowDropDownIcon />} >
                 <Typography >Что нужно сделать?</Typography>
             </AccordionSummary>
@@ -31,7 +31,7 @@ export const TodoList = memo((props: TodoListProps) => {
                 {
                     todos.length ?
                         tasksByType.map(todo =>
-                            <ItemTodo
+                            <TodoItem
                                 key={todo.id}
                                 id={todo.id}
                                 isActive={todo.isActive}

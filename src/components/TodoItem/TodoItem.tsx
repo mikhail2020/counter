@@ -10,7 +10,7 @@ interface ItemTodoProps extends Todo {
     changeChecked: (id: number) => void;
 }
 
-export const ItemTodo = memo((props: ItemTodoProps) => {
+export const TodoItem = memo((props: ItemTodoProps) => {
 
     return <>
         <MenuItem disableTouchRipple className={style.wrapper}>

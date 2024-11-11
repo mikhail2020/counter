@@ -27,7 +27,7 @@ export const TodoActionPanel = memo((props: TodoActionPanel) => {
     return (
         <Box className={style.wrapper}>
             <Stack direction="row" spacing={1} >
-                <Typography className={style.remainingTask}>
+                <Typography className={style.remainingTask} data-testid="remainingTask" >
                     {remainingTask}
                 </Typography>
 
